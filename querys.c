@@ -1,8 +1,6 @@
 //
-// Created by Silvia Acosta on 17/04/2021.
+// Created by Silvia Acosta on 31/03/2021.
 //
-
-
 
 #include "querys.h"
 #include "ctype.h. "

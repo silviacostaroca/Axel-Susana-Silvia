@@ -207,7 +207,7 @@ void fillCatalogo (CATALOGO_USER catUsers, char * linha){
     while (token != NULL) {
         /** ----- copia ID ---- **/
         if(tokenArg == 1){
-            strcpy(id, token);
+           strcpy(id, token);
         }
         /** ----- copia NOME ---- **/
         if(tokenArg == 2){
@@ -232,7 +232,7 @@ void fillCatalogo (CATALOGO_USER catUsers, char * linha){
                         }
                     }
                     strcpy(friendsUser[i],friend);
-                    // printf("Friend %d: %s\n",i, friendsUser[i]);
+                    //printf("Friend %d: %s\n",i, friendsUser[i]);
                     i++;
                 }
                 friend = strtok(NULL, ",");
@@ -340,6 +340,7 @@ int lerFicheiroReviews(char * nomeFicheiro){
     printf("Tempo de Leitura: %.3f segundos\n", tempoLeitura);
     return EXIT_SUCCESS;
 }
+
 
 
 

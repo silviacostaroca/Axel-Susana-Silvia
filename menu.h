@@ -1,9 +1,5 @@
-//
-// Created by Silvia Acosta on 17/04/2021.
-//
-
-#ifndef AXEL_MENU_H
-#define AXEL_MENU_H
+#ifndef SGR_MENU_H
+#define SGR_MENU_H
 
 /**
 #define MAXUSERS 20000
@@ -14,4 +10,5 @@
 **/
 int menu();
 
-#endif //AXEL_MENU_H
+#endif //SGR_MENU_H
+

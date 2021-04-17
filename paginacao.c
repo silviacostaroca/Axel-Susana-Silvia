@@ -1,6 +1,6 @@
-
-#ifndef AXEL_PAGINACAO_H
-#define AXEL_PAGINACAO_H
+//
+// Created by Silvia Acosta on 12/04/2021.
+//
 
 #include "paginacao.h"
 #include <stdio.h>
@@ -42,7 +42,7 @@ void PagTotal(RESULTADOS pagina, int p){
 int incPAtualNvezes(RESULTADOS pagina, int veces){
     while(veces > 0){
         pagina->pAtual++;
-        veces--;
+       veces--;
     }
     return pagina->pAtual;
 }
@@ -93,5 +93,3 @@ void paginacao(RESULTADOS pagina){
     printf("posicaoAtual %d\n", posicaoAtual);
     printf("posicaoFinal %d\n", posicaoFinal);
 }
-
-#endif //AXEL_PAGINACAO_H

@@ -1,9 +1,6 @@
-//
-// Created by Silvia Acosta on 17/04/2021.
-//
-
-#ifndef AXEL_LEITURA_H
-#define AXEL_LEITURA_H
+/*Este módulo vai tratar da leitura dos ficheiros*/
+#ifndef GRUPO66_LEITURA_H
+#define GRUPO66_LEITURA_H
 
 #include "catalogo_users.h"
 #include "catalogo_bussines.h"
@@ -31,4 +28,5 @@ int lerFicheiroUsers(char * nomeFicheiro);
 int lerFicheiroBussines(char * nomeFicheiro);
 int lerFicheiroReviews(char * nomeFicheiro);
 
-#endif //AXEL_LEITURA_H
+
+#endif /*GRUPO66_LEITURA_H*/

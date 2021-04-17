@@ -1,5 +1,5 @@
 //
-// Created by Silvia Acosta on 17/04/2021.
+// Created by Silvia Acosta on 31/03/2021.
 //
 
 #include "stdio.h"
@@ -22,6 +22,6 @@ struct review{
 };
 struct catalogoReviews{
     int totalReviews ;
-    TABLE avl_indiceR [36]; //27 letras + 9 algarismos, porque os ids podem começar por letra ou numero
+   TABLE avl_indiceR [36]; //27 letras + 9 algarismos, porque os ids podem começar por letra ou numero
 };
 

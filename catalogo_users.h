@@ -1,12 +1,9 @@
-//
-// Created by Silvia Acosta on 17/04/2021.
-//
+#ifndef GRUPO66_CATALOGO_USERS_H
+#define GRUPO66_CATALOGO_USERS_H
 
-#ifndef AXEL_CATALOGO_USERS_H
-#define AXEL_CATALOGO_USERS_H
 #include <stdbool.h>
 #include "avl.h"
-#include "users.h"
+#include "user.h"
 
 #define MAXFRIENDS 1000
 #define TAM_IDS 22
@@ -26,4 +23,4 @@ int existeUser(CATALOGO_USER catU, USER a);
 int totalUsers(CATALOGO_USER catU);
 
 
-#endif //AXEL_CATALOGO_USERS_H
+#endif //GRUPO66_CATALOGO_USERS_H

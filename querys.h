@@ -1,8 +1,8 @@
 //
-// Created by Silvia Acosta on 17/04/2021.
+// Created by Silvia Acosta on 31/03/2021.
 //
 
-#ifndef AXEL_QUERYS_H
-#define AXEL_QUERYS_H
+#ifndef GRUPO66_QUERYS_H
+#define GRUPO66_QUERYS_H
 
-#endif //AXEL_QUERYS_H
+#endif //GRUPO66_QUERYS_H

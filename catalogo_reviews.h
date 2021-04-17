@@ -1,11 +1,11 @@
 //
-// Created by Silvia Acosta on 17/04/2021.
+// Created by Silvia Acosta on 31/03/2021.
 //
 
-#ifndef AXEL_CATALOGO_REVIEWS_H
-#define AXEL_CATALOGO_REVIEWS_H
+#ifndef GRUPO66_CATALOGO_REVIEWS_H
+#define GRUPO66_CATALOGO_REVIEWS_H
 
-#endif //AXEL_CATALOGO_REVIEWS_H
+#endif //GRUPO66_CATALOGO_REVIEWS_H
 
 #include "stdio.h"
 #include "stdlib.h"

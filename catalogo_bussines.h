@@ -1,11 +1,11 @@
 //
-// Created by Silvia Acosta on 17/04/2021.
+// Created by Silvia Acosta on 31/03/2021.
 //
 
-#ifndef AXEL_CATALOGO_BUSSINES_H
-#define AXEL_CATALOGO_BUSSINES_H
+#ifndef GRUPO66_CATALOGO_BUSSINES_H
+#define GRUPO66_CATALOGO_BUSSINES_H
 
-#endif //AXEL_CATALOGO_BUSSINES_H
+#endif //GRUPO66_CATALOGO_BUSSINES_H
 #define MAXBUSSINES 5000000
 
 typedef struct bussines * BUSSINES;

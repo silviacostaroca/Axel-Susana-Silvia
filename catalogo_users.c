@@ -53,14 +53,10 @@ void inserirUserCatalogo(CATALOGO_USER cataU, char* id, char* name, char **frien
     char* idUser = strdup(id);
     char* nameUser = strdup(name);
     int indice = calculaIndiceUser(id[0]);
-    //printf("id: %s\n Name: %s", idUser, name);
     for(int k=0; k<nFriends; k++){
-        //printf("Friend %d: %s\n", k, friends[k]);
     }
     USER user = initUser(idUser, nameUser, friends, nFriends);
-    printf("construiu o user ok\n");
-    void * res = avl_insert(cataU->avl_indice[indice], getUserId(user), user);
-    if(res != NULL)
+    if(avl_insert(cataU->avl_indice[indice], getUserId(user), user)!= NULL)
         cataU->totalUsers++;
 }
 

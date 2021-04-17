@@ -35,10 +35,10 @@ typedef void *avl_copy_func (void *avl_item, void *avl_param);
 #define LIBAVL_ALLOCATOR
 /* Memory allocator. */
 struct libavl_allocator
-{
+  {
     void *(*libavl_malloc) (struct libavl_allocator *, size_t libavl_size);
     void (*libavl_free) (struct libavl_allocator *, void *libavl_block);
-};
+  };
 #endif
 
 /* Default memory allocator. */
