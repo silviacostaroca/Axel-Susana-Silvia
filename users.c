@@ -18,22 +18,16 @@ struct user{
 };
 
 USER initUser(char* id, char* name, char **friends, int nFriends){
-    int tamanho = strlen(name)+1, i=0, j=0;
-    //USER user = (USER)malloc((sizeof(char)*TAM_IDS+1)*
-    //(sizeof(char)*tamanho)*(nFriends*sizeof (char*))*(nFriends+1)); //sizeof id * sizeof nome * sizeof friends[] * nº de amigos
-    USER user = malloc(sizeof(struct user)*nFriends*sizeof(int ));
-    user->idUser = (char*)malloc(sizeof(char)*TAM_IDS);
-    user->nameUser = (char*)malloc(sizeof(char)*tamanho);
-    //user->numFriends = malloc(sizeof(int));
-    //printf("Id: %s\nNome: %s", user->idUser, user->nameUser);
-    for(j=0; j<nFriends; j++){
-        user->friendsUser[j] =(char* )malloc(sizeof(char)*TAM_IDS+1);
-    }
-    printf("passa aqui\n");
+    int i=0;
+    int tamanho = strlen(name)+1;
+    int numAmigos = nFriends;
+    USER user = (USER)malloc(sizeof(struct user));
+    user->idUser= (char*)malloc(TAM_IDS*sizeof(char));
+    user->nameUser = (char*)malloc(tamanho*sizeof(char));
     user->idUser = strdup(id);
     user->nameUser = strdup(name);
-    user->numFriends = nFriends;
-    printf("Id: %s\n", user->idUser);
+    user->numFriends = numAmigos;
+    user->friendsUser= (char**)malloc(sizeof(char)*nFriends);
     for(i=0; i<nFriends;i++){
         user->friendsUser[i]=strdup(friends[i]);
     }
@@ -58,4 +52,29 @@ char** getUserFriends(USER u){
 }
 
 
+/** --------------- sets ------------------- **/
+USER setUserId(USER u, char* id){
+    char* idU = strdup(id);
+    u->idUser = strdup(idU);
+    return u;
+}
+
+USER setUserName(USER u, char* nome){
+    char* name = strdup(nome);
+    u->nameUser = strdup(name);
+    return u;
+}
+
+USER setUserNumFriends(USER u, int nFriends){
+    u->numFriends = nFriends;
+    return u;
+}
+
+USER setUserFriends(USER u, char** friends, nFriends){
+    int i = 0;
+    for(i=0; i<nFriends;i++){
+        u->friendsUser[i]=strdup(friends[i]);
+    }
+    return u;
+}
 

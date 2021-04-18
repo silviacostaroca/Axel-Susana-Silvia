@@ -60,19 +60,50 @@ void inserirUserCatalogo(CATALOGO_USER cataU, char* id, char* name, char **frien
         cataU->totalUsers++;
 }
 
+/** -------------------------- GETS -------------------------**/
 
-/**
- * Dado un cátologo de users y una letra inicial la função devuelve el avl de clientes que comienzan por esa letra.
- */
-
-TABLE getAVLUser(CATALOGO_USER a,int x){
-    return a->avl_indice[x];
+//Funcion que calcula el numero total de users en un catálogo.
+int getTotalUsers(CATALOGO_USER catU){
+    return catU->totalUsers;
 }
 
-/** acho que esta função não é preciso
-static void incTotalUsers(CATALOGO_USER cataU, int id){
-    cataU->totalUsers++;
-}**/
+//Função que dado um catalogo e um caracter, devolve o indice correspondente a esse caracte
+int getAVLIndice(CATALOGO_USER a, char c){
+    int i = toupper(c)-A;
+    return i;
+}
+
+//Função que dado um id de user valida se ele existe
+int existeUser ()
+
+
+//Função que dado um id devolve a informação de um User
+USER getUser(CATALOGO_USER catU, char * id){
+    int i = getAVLIndice(catU, id[0]);
+    USER res = (USER)malloc(sizeof(struct user));
+    USER u = (USER)malloc(sizeof(struct user));
+    u->idUser= (char*)malloc(TAM_IDS*sizeof(char));
+    u->nameUser = (char*)malloc(tamanho*sizeof(char));
+    u->friendsUser= (char**)malloc(sizeof(char)*nFriends);
+    res = (USER)avl_find(catU->avl_indice[i], id);
+    if( res != NULL){
+        //O USER EXISTE
+        u= setUserId(u, getUserId(res));
+        u= setUserName(u, getUserName(res));
+        u= setUserNumFriends(u, getUserNumFriends(res));
+        u= setUserFriends(u, getUserFriends(res), getUserNumFriends(res));
+        return u;
+    }
+    else{
+        printf("O id indicado nao tem correspondencia!\nPor favor inserir id valido\n");
+        return EXIT_FAILURE
+    }
+}
+
+
+
+
+
 
 char * cloneId(char *idU){
     int tamanho = strlen(idU);
@@ -98,9 +129,4 @@ int existeUser(CATALOGO_USER catU, USER a){
 }
 
 
-//Funcion que calcula el numero total de users en un catálogo.
-
-int totalUsers(CATALOGO_USER catU){
-    return catU->totalUsers;
-}
 

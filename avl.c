@@ -117,7 +117,7 @@ avl_find (const struct avl_table *tree, const void *item)
       else if (cmp > 0)
         p = p->avl_link[1];
       else /* |cmp == 0| */
-        return p->avl_data;
+        return p->avl_content;
     }
 
   return NULL;

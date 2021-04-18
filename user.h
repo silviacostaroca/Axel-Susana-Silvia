@@ -15,4 +15,9 @@ char* getUserName(USER u);
 int getUserNumFriends(USER u);
 char** getUserFriends(USER u);
 
+USER setUserId(USER u, char* id);
+USER setUserName(USER u, char* nome);
+USER setUserNumFriends(USER u, int nFriends);
+USER setUserFriends(USER u, char** friends, nFriends);
+
 #endif //GRUPO66_USER_H

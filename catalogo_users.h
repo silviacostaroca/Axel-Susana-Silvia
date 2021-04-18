@@ -16,11 +16,17 @@ int avlCompara(const void *avlA, const void *avlB, void *avlParam);
 CATALOGO_USER initCatUser();
 int calculaIndiceUser(char l);
 void inserirUserCatalogo(CATALOGO_USER cataU, char* id, char* name, char **friends, int nFriends);
-TABLE getAVLUser(CATALOGO_USER a,int x);
+
+/** ------------------ GETS ------------------ **/
+int getTotalUsers(CATALOGO_USER catU);
+int getAVLIndice(CATALOGO_USER a, char c);
+
+
+
 char * cloneId(char *idU);
 void freeId(char * idU);
 int existeUser(CATALOGO_USER catU, USER a);
-int totalUsers(CATALOGO_USER catU);
+
 
 
 #endif //GRUPO66_CATALOGO_USERS_H
