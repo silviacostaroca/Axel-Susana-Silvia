@@ -12,7 +12,7 @@
 //estructura de array de AVL por ordem alfabético para el catalogo de usuarios
 struct catalogoUser{
     int totalUsers;
-    TABLE avl_indice[37]; //27 letras + 9 algarismos, porque os ids podem começar por letra, numero ou outro caracter
+    ARVORE avl_indice[37]; //26 letras + 10 algarismos, porque os ids podem começar por letra, numero ou outro caracter
 };
 
 /** ---------- Funções Sobre Estruturas de Dados ---------------**/
@@ -41,68 +41,28 @@ int calculaIndiceUser(char l) {
     int i = 0;
     if (isalpha(letra)) {
         i = letra - 'A';
-    } else {
-        i = 36;
+        return i;
     }
-    return i;
+    if(isdigit(letra)){
+        i = 26+(letra-48);
+        return i;
+    }
+    else {
+        i = 36;
+        return i;
+    }
 }
 
 
 void inserirUserCatalogo(CATALOGO_USER cataU, char* id, char* name, char **friends, int nFriends){
-    //primeiro cria USER
     char* idUser = strdup(id);
     char* nameUser = strdup(name);
     int indice = calculaIndiceUser(id[0]);
-    for(int k=0; k<nFriends; k++){
-    }
     USER user = initUser(idUser, nameUser, friends, nFriends);
-    if(avl_insert(cataU->avl_indice[indice], getUserId(user), user)!= NULL)
-        cataU->totalUsers++;
+    avl_insert(cataU->avl_indice[indice], getUserId(user), user);
+    cataU->totalUsers++;
+    free(user);
 }
-
-/** -------------------------- GETS -------------------------**/
-
-//Funcion que calcula el numero total de users en un catálogo.
-int getTotalUsers(CATALOGO_USER catU){
-    return catU->totalUsers;
-}
-
-//Função que dado um catalogo e um caracter, devolve o indice correspondente a esse caracte
-int getAVLIndice(CATALOGO_USER a, char c){
-    int i = toupper(c)-A;
-    return i;
-}
-
-//Função que dado um id de user valida se ele existe
-int existeUser ()
-
-
-//Função que dado um id devolve a informação de um User
-USER getUser(CATALOGO_USER catU, char * id){
-    int i = getAVLIndice(catU, id[0]);
-    USER res = (USER)malloc(sizeof(struct user));
-    USER u = (USER)malloc(sizeof(struct user));
-    u->idUser= (char*)malloc(TAM_IDS*sizeof(char));
-    u->nameUser = (char*)malloc(tamanho*sizeof(char));
-    u->friendsUser= (char**)malloc(sizeof(char)*nFriends);
-    res = (USER)avl_find(catU->avl_indice[i], id);
-    if( res != NULL){
-        //O USER EXISTE
-        u= setUserId(u, getUserId(res));
-        u= setUserName(u, getUserName(res));
-        u= setUserNumFriends(u, getUserNumFriends(res));
-        u= setUserFriends(u, getUserFriends(res), getUserNumFriends(res));
-        return u;
-    }
-    else{
-        printf("O id indicado nao tem correspondencia!\nPor favor inserir id valido\n");
-        return EXIT_FAILURE
-    }
-}
-
-
-
-
 
 
 char * cloneId(char *idU){
@@ -120,13 +80,79 @@ void freeId(char * idU){
 }
 
 
-// Función que verifica si un user ya existe.
-//Retorna 0 caso no exista y 1 si existe.
+//Funcion que calcula el numero total de users en un catálogo.
+int getTotalUsers(CATALOGO_USER catU){
+    return catU->totalUsers;
+}
+
+//Função que dado um catalogo e um caracter, devolve o indice correspondente a esse caracte
+int getAVLIndice(CATALOGO_USER a, char c){
+    int i = 0;
+    char letra = toupper(c);
+    if(isdigit(letra))
+    {
+        i = 26+(letra-48);
+        return i;
+    }
+    if(isalpha(letra)){
+        i = letra - 'A';
+        return i;
+    }
+    else {
+        i = 36;
+        return i;
+    }
+}
+
+//Função que dado um id de user valida se ele existe
+
 int existeUser(CATALOGO_USER catU, USER a){
-    int lInicial = getUserId(a)[0]-65;
-    if(avl_find(catU->avl_indice[lInicial], getUserId(a))==NULL) return 0;
-    else return 1;
+    int lInicial = getAVLIndice(catU, getUserId(a)[0]);
+    if(avl_find(catU->avl_indice[lInicial], getUserId(a))==NULL)return EXIT_FAILURE;
+    else return EXIT_SUCCESS;
 }
 
 
+//Função que dado um id devolve a informação de um User
 
+USER getUser(CATALOGO_USER catU, char * id){
+
+    int i = getAVLIndice(catU, id[0]);
+    USER res = (USER) malloc(sizeof (USER));
+    USER u = (USER) malloc(sizeof (USER));
+
+
+    res = (USER) avl_find(catU->avl_indice[i], id);
+    if (res != NULL) {
+        //O USER EXISTE
+        char * test = strdup(getUserName(res));
+        u = setUserId(u, getUserId(res));
+        u = setUserName(u, getUserName(res));
+        u = setUserNumFriends(u, getUserNumFriends(res));
+        u = setUserFriends(u, getUserFriends(res), getUserNumFriends(res));
+        return u;
+    } else {
+        printf("O id indicado nao tem correspondencia!\nPor favor inserir id valido\n");
+        return NULL;
+    }
+
+}
+ARVORE getCatalogoUsersPorLetra(CATALOGO_USER cat_u, char l) {
+    return cat_u->avl_indice[calculaIndiceUser(l)];
+}
+
+ARVORE getCatalogoUserPorIndice(CATALOGO_USER cat_u, int i) {
+    return cat_u->avl_indice[i];
+}
+
+
+void freeCatalogoUsers(CATALOGO_USER cat_U){
+    int i;
+
+    if(cat_U != NULL){
+        for (i = 0; i <= 36; i++) {
+            avl_destroy(cat_U->avl_indice[i], freeId);
+        }
+    }
+    free(cat_U);
+}

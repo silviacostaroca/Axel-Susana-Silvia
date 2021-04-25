@@ -6,20 +6,19 @@
 
 #include "leitura.h"
 #include "catalogo_users.h"
+#include "catalogo_bussines.h"
+#include "catalogo_reviews.h"
 
 //Este módulo vai tratar da leitura e carregamento em memória dos ficheiros
 
 
-CATALOGO_USER cat_users;
-CATALOGO_BUSSINES cat_bussines;
-CATALOGO_REVIEWS cat_reviews;
 
 /** --------------------- Validações ------------------------------------**/
 //a data vem no tipo: 2014-10-11 03:34:02
 int isDate(char * token){
     char * parteData;
     char * data="";
-    char * hora="";
+    char * horas="";
     int args = 0;
     char * valH;
     int countH=0;
@@ -28,9 +27,9 @@ int isDate(char * token){
     parteData = strtok(token, " ");
     while (parteData != NULL){
         if (args == 0)
-            strcpy(data, parteData);
+            data = strdup(parteData);
         if (args == 1)
-            strcpy(hora, parteData);
+            horas = strdup(parteData);
         if(args >= 2)
             //se tiver mais argumentos do que data e hora
             return EXIT_FAILURE;
@@ -66,7 +65,7 @@ int isDate(char * token){
         return EXIT_FAILURE;
 
     //Valida hora
-    valH = strtok(data, ":");
+    valH = strtok(horas, ":");
     while(valH != NULL){
         if(countH==0){
             //hora
@@ -84,7 +83,7 @@ int isDate(char * token){
                 return EXIT_FAILURE;
         }
         countH++;
-        valH = strtok(NULL, "-");
+        valH = strtok(NULL, ":");
     }
     if(countH > 3)
         return EXIT_FAILURE;
@@ -143,7 +142,7 @@ int validaReviews (char * linha){
     int tokenReg= 0; //Para validar o nº de campos
     token = strtok(linha,";");
     while (token != NULL){
-        int cool, useful, funny;;
+        int cool, useful, funny;
         float stars;
         switch (tokenReg) {
             case 0: //id review
@@ -187,14 +186,14 @@ int validaReviews (char * linha){
         token = strtok(NULL, ";");
     }
     //só pode ter 9 argumentos
-    if(tokenReg != 9){
+    if(tokenReg+1 != 9){
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
 }
 
 /** ----------------------- Colocar em estrutura ------------------------ **/
-void fillCatalogo (CATALOGO_USER catUsers, char * linha){
+void fillCatalogoUsers (CATALOGO_USER catUsers, char * linha){
     char id[TAM_IDS+1], name[50];
     int tokenArg = 1; //identifica qual a variàvel que está a guarda
     int mem = MAXFRIENDS, i=0, j=0, k=0;
@@ -207,7 +206,7 @@ void fillCatalogo (CATALOGO_USER catUsers, char * linha){
     while (token != NULL) {
         /** ----- copia ID ---- **/
         if(tokenArg == 1){
-           strcpy(id, token);
+            strcpy(id, token);
         }
         /** ----- copia NOME ---- **/
         if(tokenArg == 2){
@@ -232,7 +231,6 @@ void fillCatalogo (CATALOGO_USER catUsers, char * linha){
                         }
                     }
                     strcpy(friendsUser[i],friend);
-                    //printf("Friend %d: %s\n",i, friendsUser[i]);
                     i++;
                 }
                 friend = strtok(NULL, ",");
@@ -242,12 +240,120 @@ void fillCatalogo (CATALOGO_USER catUsers, char * linha){
         token = strtok(NULL, ";");
     }
     inserirUserCatalogo (catUsers, id, name, friendsUser, i);
-    free(friendsUser);
+    //free(friendsUser);
+}
+
+void fillCatalogoBussines (CATALOGO_BUSSINES catB, char * linha) {
+    char id[TAM_IDS + 1], name[TAM_NAME], city[TAM_NAME], state[TAM_NAME];
+    int tokenArg = 1; //identifica qual a variàvel que está a guarda
+    int mem = MAXCATEGORIAS, i = 0, j = 0, k = 0;
+    char *token = strtok(linha, ";");
+    char *categorias;
+    char **bussCategorias = (char **) malloc(MAXCATEGORIAS * (TAM_NAME) * sizeof(char));
+    for (j = 0; j < MAXCATEGORIAS; j++) {
+        bussCategorias[j] = (char *) malloc(TAM_NAME);
+    }
+    while (token != NULL) {
+        /* ----- copia ID ---- */
+        if (tokenArg == 1) {
+            strcpy(id, token);
+        }
+        /* ----- copia NOME ---- */
+        if (tokenArg == 2) {
+            strcpy(name, token);
+        }
+        /* ----- copia CITY ---- */
+        if (tokenArg == 3) {
+            strcpy(city, token);
+        }
+        /* ----- copia STATE ---- */
+        if (tokenArg == 4) {
+            strcpy(state, token);
+        }
+        /* ----- copia CATEGORIAS ---- */
+        if (tokenArg == 5) {
+            categorias = strtok(token, ",");
+            i = 0;
+            while (categorias != NULL) {
+                //valida se e necessario fazer o realloc
+                if (i == mem - 1) {
+                    mem = mem + MAXCATEGORIAS;
+                    bussCategorias = (char **) realloc(bussCategorias, mem * (TAM_NAME + 1) * sizeof(char));
+                    for (k = i; k < mem; k++) {
+                        bussCategorias[k] = (char *) malloc(sizeof(char) * TAM_NAME + 1);
+                    }
+                    if (bussCategorias == NULL) {
+                        printf("Memória insuficiente!\n");
+                    }
+                }
+                strcpy(bussCategorias[i], categorias);
+                i++;
+                categorias = strtok(NULL, ",");
+            }
+        }
+        tokenArg++;
+        token = strtok(NULL, ";");
+    }
+    inserirBussinesCatalogo(catB, id, name, city, state, bussCategorias, i);
+}
+
+
+void fillCatalogoReviews (CATALOGO_REVIEWS  catR, char * linha){
+    char idR[TAM_IDS+1];
+    char idU[TAM_IDS+1];
+    char idB[TAM_IDS+1];
+    char date[TAM_NAME];
+    char text[MAXBUFBUSSINES];
+    float stars;
+    int useful, funny, cool;
+    int tokenArg = 1; //identifica qual a variàvel que está a guarda
+    char * token = strtok(linha, ";");
+    while (token != NULL) {
+        //----- copia ID REVIEW ----
+        if(tokenArg == 1){
+            strcpy(idR, token);
+        }
+        //----- copia ID USERS ----
+        if(tokenArg == 2){
+            strcpy(idU, token);
+        }
+        //----- copia ID BUSSINES ----
+        if(tokenArg == 3){
+            strcpy(idB, token);
+        }
+        //----- copia STARS ----
+        if(tokenArg == 4){
+            stars = atof(token);
+        }
+        //----- copia USEFUL ----
+        if(tokenArg == 5){
+            useful = atoi(token);
+        }
+        //----- copia FUNNY ----
+        if(tokenArg == 6){
+            funny = atoi(token);
+        }
+        // ----- copia COOL ----
+        if(tokenArg == 7){
+            cool = atoi(token);
+        }
+        //----- copia DATE----
+        if(tokenArg == 8){
+            strcpy(date, token);
+        }
+        //---- copia TEXT----
+        if(tokenArg == 9){
+            strcpy(text, token);
+        }
+        tokenArg ++;
+        token = strtok(NULL, ";");
+    }
+    inserirReviewCatalogo(catR, idR, idB, idU, stars, useful, funny,cool, date, text);
 }
 
 /*--------------------------------- Ler ficheiros -------------------------------------------*/
 //Lê o ficheiro users.csv
-int lerFicheiroUsers(char * nomeFicheiro){
+CATALOGO_USER lerFicheiroUsers(char * nomeFicheiro, CATALOGO_USER cat_users){
     int linhasLidas = 0;
     int linhasValidas = 0;
     char linha[MAXBUFUSERS];
@@ -260,89 +366,93 @@ int lerFicheiroUsers(char * nomeFicheiro){
         perror("Erro ao abrir o ficheiro");
         return EXIT_FAILURE;
     }
-    printf("Ficheiro: %s\n", nomeFicheiro);
+    //printf("Ficheiro: %s\n", nomeFicheiro);
     tempIni = clock();
     while(fgets(linha, MAXBUFUSERS, fp)){
         linhasLidas++;
         strcpy(copia, linha);
         if (validaUser(linha) == EXIT_SUCCESS){
             linhasValidas ++;
-            fillCatalogo(cat_users, copia);
-            //printf("|| ID: %d ||\n", totalUsers(cat_users));
+            fillCatalogoUsers(cat_users, copia);
+
         }
     }
     fclose(fp);
     tempFim = clock();
     tempoLeitura = (double) (tempFim-tempIni)/CLOCKS_PER_SEC;
+    printf("===============USERS===============\n");
     printf("Total de Linhas Lidas: %d\n",linhasLidas-1);
     printf("Total de Linhas Válidas: %d\n", linhasValidas);
     printf("Tempo de Leitura: %.3f segundos\n", tempoLeitura);
-    return EXIT_SUCCESS;
+    return cat_users;
 }
 
 //Lê o ficheiro bussines.csv
-int lerFicheiroBussines(char * nomeFicheiro){
+CATALOGO_BUSSINES lerFicheiroBussines(char * nomeFicheiro, CATALOGO_BUSSINES cat_bussines){
+    char copylinha [MAXBUFUSERS];
     int linhasLidas = 0;
     int linhasValidas = 0;
-    char linha[MAXBUFUSERS];
+    char linha[MAXBUFFER];
     clock_t tempIni, tempFim;
     float tempoLeitura;
-    //USER user = (USER)malloc (sizeof(USER));
+    cat_bussines=initCatBussines();
     FILE * fp = fopen(nomeFicheiro, "r");
     if(fp==NULL) {
         perror("Erro ao abrir o ficheiro");
         return EXIT_FAILURE;
     }
-    printf("Ficheiro: %s\n", nomeFicheiro);
+    //printf("Ficheiro: %s\n", nomeFicheiro);
     tempIni = clock();
-    while(fgets(linha, MAXBUFUSERS, fp)){
+
+    while(fgets(linha, MAXBUFFER, fp)){
         linhasLidas++;
-        //user = fillUser(linha);
+        strcpy(copylinha, linha);
         if (validaBussines(linha) == EXIT_SUCCESS){
             linhasValidas ++;
+            fillCatalogoBussines(cat_bussines,copylinha);
         }
     }
     fclose(fp);
     tempFim = clock();
     tempoLeitura = (double) (tempFim-tempIni)/CLOCKS_PER_SEC;
+    printf("===============BUSSINES===============\n");
     printf("Total de Linhas Lidas: %d\n",linhasLidas-1);
     printf("Total de Linhas Válidas: %d\n", linhasValidas-1);
     printf("Tempo de Leitura: %.3f segundos\n", tempoLeitura);
-    return EXIT_SUCCESS;
+    return cat_bussines;
 }
 
 //Lê o ficheiro reviews.csv
-int lerFicheiroReviews(char * nomeFicheiro){
+CATALOGO_REVIEWS lerFicheiroReviews(char * nomeFicheiro, CATALOGO_REVIEWS cat_reviews){
+    char copylinha [MAXBUFFER];
     int linhasLidas = 0;
     int linhasValidas = 0;
-    char linha[MAXBUFUSERS];
+    char linha[MAXBUFFER];
     clock_t tempIni, tempFim;
     float tempoLeitura;
+    cat_reviews = initCatReviews();
     FILE * fp = fopen(nomeFicheiro, "r");
     if(fp==NULL) {
         perror("Erro ao abrir o ficheiro");
         return EXIT_FAILURE;
     }
-    printf("Ficheiro: %s\n", nomeFicheiro);
+    //printf("Ficheiro: %s\n", nomeFicheiro);
     tempIni = clock();
-    while(fgets(linha, MAXBUFUSERS, fp)){
+    while(fgets(linha, MAXBUFFER, fp)){
+        strcpy(copylinha, linha);
         linhasLidas++;
-        //user = fillUser(linha);
-        /*if (validaReviews (linha) == EXIT_SUCCESS){
+        if (validaReviews (linha) == EXIT_SUCCESS){
             linhasValidas ++;
-        }*/
+            fillCatalogoReviews(cat_reviews,copylinha);
+        }
     }
     fclose(fp);
     tempFim = clock();
     tempoLeitura = (double) (tempFim-tempIni)/CLOCKS_PER_SEC;
+    printf("===============REVIEWS===============\n");
     printf("Total de Linhas Lidas: %d\n",linhasLidas-1);
     printf("Total de Linhas Válidas: %d\n", linhasValidas-1);
     printf("Tempo de Leitura: %.3f segundos\n", tempoLeitura);
-    return EXIT_SUCCESS;
+    return cat_reviews;
 }
-
-
-
-
-
 

@@ -68,8 +68,21 @@ int getTotalReviews (CATALOGO_REVIEWS catR){
 
 //Função que dado um catalogo e um caracter, devolve o indice correspondente a esse caracte
 int getAVLIndiceR(CATALOGO_REVIEWS a, char c){
-    int i = toupper(c)-'A';
-    return i;
+    int i = 0;
+    char letra = toupper(c);
+    if(isdigit(letra))
+    {
+        i = 26+(letra-48);
+        return i;
+    }
+    if(isalpha(letra)){
+        i = letra - 'A';
+        return i;
+    }
+    else {
+        i = 36;
+        return i;
+    }
 }
 //Função que dado um id de reviews valida se ele existe
 

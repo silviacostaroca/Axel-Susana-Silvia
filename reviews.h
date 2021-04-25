@@ -1,27 +1,18 @@
 //
-// Created by Silvia Acosta on 17/04/2021.
+// Created by Silvia Acosta on 19/04/2021.
 //
 
-#ifndef GRUPO66_CATALOGO_REVIEWS_H
-#define GRUPO66_CATALOGO_REVIEWS_H
+#ifndef AXEL_REVIEWS_H
+#define AXEL_REVIEWS_H
 
-
-
-#include "stdlib.h"
-#include "string.h"
-#include "stdio.h"
-#include <ctype.h>
-#include <stdbool.h>
-#include "avl.h"
-#include "reviews.h"
-
-#define TAM_IDS 22
 #define MAXTEXT 5000000
+#define TAM_IDS 22
+typedef struct review * REVIEW;
 
-typedef struct catalogoReviews *CATALOGO_REVIEWS;
 
-CATALOGO_REVIEWS initCatReviews();
-void inserirReviewCatalogo(CATALOGO_REVIEWS cataR, char*idR, char*idU, char*idB, float estrelas, int util, int div, int col,  char*data,  char*texto);
+
+REVIEW initReview (char*idR, char*idB, char*idU, float estrelas, int util, int div, int col,  char*data,  char*texto);
+
 char* getReviewIdU(REVIEW r);
 char* getReviewIdB(REVIEW r);
 char* getReviewIdR(REVIEW r);
@@ -31,7 +22,7 @@ int getReviewFunny(REVIEW r);
 int getReviewCool(REVIEW r);
 char* getReviewData(REVIEW r);
 char* getReviewText(REVIEW r);
-REVIEW getReview (CATALOGO_REVIEWS catR, char * idR);
+
 
 REVIEW setReviewIdU(REVIEW r, char* id);
 REVIEW setReviewIdB(REVIEW r, char* id);
@@ -44,4 +35,5 @@ REVIEW setReviewsData(REVIEW r, char* data);
 REVIEW setReviewsText(REVIEW r, char* texto);
 
 
-#endif //GRUPO66_CATALOGO_REVIEWS_H
+
+#endif //AXEL_REVIEWS_H
