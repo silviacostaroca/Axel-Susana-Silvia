@@ -1,6 +1,6 @@
-//Este módulo vai tratar da leitura dos ficheiros/
-#ifndef GRUPO66_LEITURA_H
-#define GRUPO66_LEITURA_H
+
+#ifndef SGR_TESTE_LEITURA_H
+#define SGR_TESTE_LEITURA_H
 
 #include "catalogo_users.h"
 #include "catalogo_bussines.h"
@@ -35,9 +35,10 @@ void fillCatalogoBussines (CATALOGO_BUSSINES catB, char * linha);
 void fillCatalogoReviews (CATALOGO_REVIEWS catR, char * linha);
 
 //Leitura dos ficheiros .csv
-int lerFicheiroUsers(char * nomeFicheiro, CATALOGO_USER cat_users);
-int lerFicheiroBussines(char * nomeFicheiro, CATALOGO_BUSSINES cat_bussines);
-int lerFicheiroReviews(char * nomeFicheiro, CATALOGO_REVIEWS cat_reviews);
+CATALOGO_USER lerFicheiroUsers(char * nomeFicheiro, CATALOGO_USER cat_users);
+CATALOGO_BUSSINES lerFicheiroBussines(char * nomeFicheiro, CATALOGO_BUSSINES cat_bussines);
+CATALOGO_REVIEWS lerFicheiroReviews(char * nomeFicheiro, CATALOGO_REVIEWS cat_reviews);
 
 
-#endif /GRUPO66_LEITURA_H/
+
+#endif //SGR_TESTE_LEITURA_H

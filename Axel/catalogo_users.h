@@ -7,6 +7,8 @@
 
 
 #define TAM_IDS 22
+#define MAXUSERS 1000000
+
 //#define MAXFRIENDS 1000
 
 /* ---------------- Estruturas ---------------*/

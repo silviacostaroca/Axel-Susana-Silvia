@@ -14,6 +14,18 @@ struct user{
     int numFriends;
 };
 
+USER initU() {
+    int i=0;
+    USER user = (USER) malloc(sizeof(struct user));
+    user->idUser = (char *) malloc(TAM_IDS * sizeof(char));
+    user->nameUser = (char *) malloc(200* sizeof(char));
+    user->friendsUser = (char **) malloc(sizeof(char) * N_FRIENDS);
+    for (i = 0; i < N_FRIENDS; i++) {
+        user->friendsUser[i] = (char *)malloc(sizeof(char)*TAM_IDS);
+    }
+    return user;
+}
+
 USER initUser(char* id, char* name, char **friends, int nFriends){
     int i=0;
     int tamanho = strlen(name)+1;
@@ -24,7 +36,7 @@ USER initUser(char* id, char* name, char **friends, int nFriends){
     user->idUser = strdup(id);
     user->nameUser = strdup(name);
     user->numFriends = numAmigos;
-    user->friendsUser= (char**)malloc(sizeof(char)*nFriends);
+    user->friendsUser= (char**)malloc(sizeof(char)*nFriends*TAM_IDS);
     for(i=0; i<nFriends;i++){
         user->friendsUser[i]=strdup(friends[i]);
     }

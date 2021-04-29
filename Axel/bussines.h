@@ -19,7 +19,9 @@ char* getBussinesCity(BUSSINES b);
 char* getBussinesState(BUSSINES b);
 int getBussinesTotalCat(BUSSINES b);
 char** getBussinesCategorias(BUSSINES b);
-
+float* getBussinesStars (BUSSINES b);
+int getBussinesTotalstars (BUSSINES b);
+BUSSINES setBussinesStarsArray(BUSSINES b, float* stars , int totalStars);
 /** --------------- sets ------------------- **/
 BUSSINES setBussinesId(BUSSINES b, char* id);
 BUSSINES setBussinesName(BUSSINES b, char* nome);
@@ -27,5 +29,7 @@ BUSSINES setBussinesCity(BUSSINES b, char* city);
 BUSSINES setBussinesState(BUSSINES b, char* state);
 BUSSINES setBussinesTotalCategorias(BUSSINES b, int numCat);
 BUSSINES setBussinesCategorias(BUSSINES b, char** categories, int totalCat);
+BUSSINES setBussinesTotalStars(BUSSINES b, int numStars);
+BUSSINES setBussinesStars (BUSSINES b, float star, int numStars);
 
 #endif //GRUPO66_BUSSINES_H

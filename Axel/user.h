@@ -9,7 +9,7 @@ typedef struct user * USER;
 
 /** ---------------- Funçoẽs -------------------**/
 USER initUser(char* id, char* name, char **friends, int nFriends);
-
+USER initU();
 char* getUserId(USER u);
 char* getUserName(USER u);
 int getUserNumFriends(USER u);

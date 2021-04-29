@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include "avl.h"
 #include "reviews.h"
+#include "catalogo_bussines.h"
 
 #define TAM_IDS 22
 #define MAXTEXT 5000000
@@ -43,5 +44,12 @@ REVIEW setReviewsStars(REVIEW r, float estrelas);
 REVIEW setReviewsData(REVIEW r, char* data);
 REVIEW setReviewsText(REVIEW r, char* texto);
 
+
+float* travessiaReviewsPorIdB (CATALOGO_REVIEWS cat_r, char* idBuss);
+char** travessiaReviewsPorIdU (CATALOGO_REVIEWS cat_r, char*idUser);
+char** travessiaReviewsPorStars (CATALOGO_REVIEWS cat_r, float stars);
+char ** travessiaNMedioStars (CATALOGO_REVIEWS catR, char* idB);
+int funcionQueCompara(const void *a, const void *b);
+CATALOGO_BUSSINES estruturaConStars (CATALOGO_REVIEWS catR, CATALOGO_BUSSINES catB);
 
 #endif //GRUPO66_CATALOGO_REVIEWS_H

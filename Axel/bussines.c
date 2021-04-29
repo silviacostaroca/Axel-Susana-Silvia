@@ -11,13 +11,32 @@
 /** ---------------- Estruturas de Dados ---------------**/
 struct bussines{
     char *idBussines;
+    float* stars;
     char *nameBussines;
     char *cityBussines;
     char *stateBussines;
     char **categorias;
     int totalCat;
+    int totalStars;
 
 };
+
+
+BUSSINES initB(){
+    int i=0;
+    BUSSINES bussines = (BUSSINES)malloc(sizeof(struct bussines));
+    bussines->idBussines= (char*)malloc(TAM_IDS* sizeof(char));
+    bussines->nameBussines= (char*)malloc(MAXCAT*sizeof(char));
+    bussines->cityBussines= (char*)malloc(MAXCAT*sizeof(char));
+    bussines->stateBussines= (char*)malloc(MAXCAT*sizeof(char));
+    bussines->stars=(float *) malloc(MAXCAT*sizeof (float));
+    bussines->categorias= (char**)malloc(sizeof(char)*MAXCAT);
+    for(i=0; i<MAXCAT;i++){
+        bussines->categorias[i]=(char*)malloc(TAM_CATEG*sizeof(char));
+    }
+    return bussines;
+}
+
 
 BUSSINES initBussines(char* id, char* name, char* city, char* state, char** categories, int numCategorias){
     int i=0;
@@ -30,12 +49,14 @@ BUSSINES initBussines(char* id, char* name, char* city, char* state, char** cate
     bussines->nameBussines= (char*)malloc(tamName*sizeof(char));
     bussines->cityBussines= (char*)malloc(tamCity*sizeof(char));
     bussines->stateBussines= (char*)malloc(tamState*sizeof(char));
+    bussines->stars=(float *) malloc(MAXCAT*sizeof (float));
     bussines->idBussines= strdup(id);
     bussines->nameBussines= strdup(name);
     bussines->cityBussines= strdup(city);
     bussines->stateBussines= strdup(state);
     bussines->totalCat= numCat;
-    bussines->categorias= (char**)malloc(sizeof(char)*numCat);
+    bussines->totalStars =0;
+    bussines->categorias= (char**)malloc(sizeof(char)*numCat*TAM_CATEG);
     for(i=0; i<numCat;i++){
         bussines->categorias[i]=strdup(categories[i]);
     }
@@ -68,7 +89,7 @@ char** getBussinesCategorias(BUSSINES b){
 }
 char** getBussinesCateg(BUSSINES b){
     int i;
-    char**copycateg=(char**) malloc(b->totalCat*(TAM_CATEG+1)*sizeof (char));
+    char**copycateg=(char**) malloc(b->totalCat*(TAM_CATEG)*sizeof (char));
     for(i=0; i<(b->totalCat);i++){
         copycateg[i]=strcpy(copycateg[i],b->categorias[i]);
     }
@@ -76,29 +97,40 @@ char** getBussinesCateg(BUSSINES b){
     return copycateg;
 }
 
+float* getBussinesStars (BUSSINES b){
+    return b->stars;
+}
+
+int getBussinesTotalstars (BUSSINES b){
+    return b->totalStars;
+}
 
 /** --------------- sets ------------------- **/
 
 BUSSINES setBussinesId(BUSSINES b, char* id){
-    char* idB = strdup(id);
+    char* idB= (char*) malloc(sizeof(char)*strlen(id));
+    idB = strcpy(idB,id);
     b->idBussines = strdup(idB);
     return b;
 }
 
 BUSSINES setBussinesName(BUSSINES b, char* nome){
-    char* name = strdup(nome);
+    char* name= (char*) malloc(sizeof(char)*strlen(nome));
+    name = strcpy(name, nome);
     b->nameBussines = strdup(name);
     return b;
 }
 
 BUSSINES setBussinesCity(BUSSINES b, char* city){
-    char* cidade = strdup(cidade);
+    char* cidade=(char*) malloc(sizeof(char)*strlen(city));
+    cidade = strcpy(cidade,city);
     b->cityBussines = strdup(cidade);
     return b;
 }
 
 BUSSINES setBussinesState(BUSSINES b, char* state){
-    char* estado = strdup(state);
+    char* estado= (char*) malloc(sizeof(char)*strlen(state));
+    estado = strcpy(estado,state);
     b->stateBussines = strdup(estado);
     return b;
 }
@@ -109,22 +141,28 @@ BUSSINES setBussinesTotalCategorias(BUSSINES b, int numCat){
 }
 
 BUSSINES setBussinesCategorias(BUSSINES b, char** categories, int totalCat){
+    b->categorias=(char**) malloc((totalCat)*(TAM_CATEG+1)*sizeof (char));
     int i = 0;
     for(i=0; i<totalCat;i++){
         b->categorias[i]=strdup(categories[i]);
     }
     return b;
 }
-
-BUSSINES setUserCategorias(BUSSINES b, char** categorias, int totalCat){
-
-    b->categorias=(char**) malloc((totalCat)*(TAM_CATEG+1)*sizeof (char));
-    if(b->categorias==NULL) printf("El malloc correu mal\n");
+BUSSINES setBussinesTotalStars(BUSSINES b, int numStars){
+    b->totalStars = numStars;
+    return b;
+}
+BUSSINES setBussinesStarsArray(BUSSINES b, float* stars , int totalStars){
+    b->stars=(float*) malloc((totalStars)*sizeof (float));
     int i = 0;
-    for(i=0; i<totalCat;i++){
-        printf("friends %d %s\n",i,categorias[i]);
-        (b->categorias[i])=strdup(categorias[i]);
+    for(i=0; i<totalStars;i++){
+        b->stars[i]=stars[i];
     }
-    printf("sai friends %d %s\n",i,categorias[i]);
+    return b;
+}
+
+BUSSINES setBussinesStars (BUSSINES b, float star, int numStars){
+   // b->stars = (float*)realloc(b->stars,MAXCAT*sizeof (float));
+    b->stars[numStars] = star;
     return b;
 }

@@ -9,12 +9,15 @@
 typedef struct sgr * SGR;
 
 
-int query1();
-int query2();
 SGR init_SGR();
 void free_sgr(SGR sgr);
-SGR load_sgr(char *users, char *businesses, char *reviews);
+int query1();
 int query2();
+int query3();
+int query4();
+int query5();
+int query6();
+SGR load_sgr(char *users, char *businesses, char *reviews);
 TABLE businesses_started_by_letter(SGR sgr, char letter);
 /**
 TABLE business_info(SGR sgr, char *business_id);

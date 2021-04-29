@@ -7,6 +7,7 @@
 #include "bussines.h"
 #include "paginacao.h"
 
+
 #define TAM_IDS 22
 #define MAXCATEGORIAS 1000
 
@@ -18,6 +19,7 @@ int calculaIndiceBussines(char l);
 void inserirBussinesCatalogo(CATALOGO_BUSSINES cataB, char*idB, char*nameB, char*city, char*state, char**categorias, int nBussines);
 int getTotalBussines(CATALOGO_BUSSINES catB);
 int existeBussines(CATALOGO_BUSSINES catB, BUSSINES b);
+int getAVLIndiceB(CATALOGO_BUSSINES a, char c);
 BUSSINES getBussines(CATALOGO_BUSSINES catB, char * idB);
 ARVORE getCatalogoBussinesPorLetra(CATALOGO_BUSSINES cat_b, char l);
 ARVORE getCatalogoBussinesPorIndice(CATALOGO_BUSSINES cat_b, int i);
@@ -25,6 +27,7 @@ ARVORE getCatalogoBussinesPorIndice(CATALOGO_BUSSINES cat_b, int i);
 void freeTravessia(TravessiaModulo trav);
 TABLE travessiaBussinesPorLetra (CATALOGO_BUSSINES cat_b, char letra);
 //void quicksort(void** resultados, int (*funcaoComparacao)(), int n, void* param);
+char** travessiaBussinesPorCidade (CATALOGO_BUSSINES cat_b, char* ciudad);
 
 
 

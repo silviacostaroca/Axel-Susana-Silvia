@@ -12,16 +12,14 @@
 
 
 /**---------------- Estruturas de Dados ---------------**/
-
-SGR sgr;
-
 struct sgr{
     CATALOGO_USER cat_u;
     CATALOGO_BUSSINES cat_b;
     CATALOGO_REVIEWS cat_r;
 };
 
-
+//variável Global
+SGR estruturaSGR;
 
 //Inicializar a struct SGR
 SGR init_SGR(){
@@ -33,99 +31,89 @@ SGR init_SGR(){
 }
 
 void free_sgr(SGR sgr){
-    free(sgr->cat_r);
-    free(sgr->cat_b );
-    free(sgr->cat_u);
-    free(sgr);
+    if(sgr != NULL){
+        if(sgr->cat_r != NULL)
+            free(sgr->cat_r);
+        if(sgr->cat_b != NULL)
+            free(sgr->cat_b );
+        if(sgr->cat_u != NULL)
+            free(sgr->cat_u);
+        free(sgr);
+    }
 }
 
-
-
-
-
-
-//query 1. Dado o caminho para os 3 ficheiros (Users, Businesses, e Reviews), ler o seu conteúdo e carregar as
-//          estruturas de dados correspondentes.**/
-
-
-
+/**-----------------------------------------------------QUERIES------------------------------------------------------------**/
+/**query 1. Dado o caminho para os 3 ficheiros (Users, Businesses, e Reviews), ler o seu conteúdo e carregar as
+            struturas de dados correspondentes.**/
 
 int query1() {
-    sgr = init_SGR();
-    int flag = 0;
+    // estruturaSGR = init_SGR();
     char tFicheiro;
     char nomeFicheiro[MAXBUFFER];
     printf("**********************Query 1********************\n");
     printf("Indique o ficheiro a ler U-users B-bussines R-reviews T-todos\n");
     if (scanf(" %c", &tFicheiro) > 0)printf("Escolheu o tipo de ficheiro : %c\n", tFicheiro);
     tFicheiro = toupper(tFicheiro);
-
-
-        switch (tFicheiro) {
-            case 'U':
-                printf("Indique o nome do ficheiro a abrir: \n");
-                if (scanf("%s", nomeFicheiro) > 0) {
-                    printf("Escolheu o ficheiro de nome : %s\n", nomeFicheiro);
-                    sgr->cat_u = load_sgr("users.csv", NULL, NULL)->cat_u;
-                }
-
-                else {
-                    printf("\nFicheiro inexistente\n");
-                }
-                break;
-            case 'B':
-                printf("Indique o nome do ficheiro a abrir: \n");
-                if (scanf("%s", nomeFicheiro) > 0) {
-                    printf("Escolheu o ficheiro de nome : %s\n", nomeFicheiro);
-                    sgr->cat_b = load_sgr(NULL, "bussines.csv", NULL)->cat_b;
-                }
-                else {
-                    printf("\nFicheiro inexistente\n");
-                }
-                break;
-            case 'R':
-                printf("Indique o nome do ficheiro a abrir: \n");
-                if (scanf(" %s", nomeFicheiro) > 0) {
-                    printf("Escolheu o ficheiro de nome : %s\n", nomeFicheiro);
-                    sgr->cat_r = load_sgr(NULL, NULL, "reviews.csv")->cat_r;
-                } else {
-                    printf("\nFicheiro inexistente\n");
-                }
-                break;
-            case 'T':
-                free_sgr(sgr);
-                sgr =init_SGR();
-                sgr = load_sgr("users.csv", "bussines.csv", "reviews.csv");
-                break;
-
-
-            default: {
-                printf("Tipo de ficheiro inválido");
-                printf("\nIndique o tipo de ficheiro que deseja abrir (U-users B-bussines R-reviews): \n");
-                if (scanf(" %c", &tFicheiro) > 0)printf("Escolheuo tipo : %c\n", tFicheiro);
+    switch (tFicheiro) {
+        case 'U':
+            printf("Indique o nome do ficheiro a abrir: \n");
+            if (scanf("%s", nomeFicheiro) > 0) {
+                printf("Escolheu o ficheiro de nome : %s\n", nomeFicheiro);
+                estruturaSGR->cat_u = load_sgr("users.csv", NULL, NULL)->cat_u;
+            } else {
+                printf("\nFicheiro inexistente\n");
             }
+            break;
+        case 'B':
+            printf("Indique o nome do ficheiro a abrir: \n");
+            if (scanf("%s", nomeFicheiro) > 0) {
+                printf("Escolheu o ficheiro de nome : %s\n", nomeFicheiro);
+                estruturaSGR->cat_b = load_sgr(NULL, "bussines.csv", NULL)->cat_b;
+            } else {
+                printf("\nFicheiro inexistente\n");
+            }
+            break;
+        case 'R':
+            printf("Indique o nome do ficheiro a abrir: \n");
+            if (scanf(" %s", nomeFicheiro) > 0) {
+                printf("Escolheu o ficheiro de nome : %s\n", nomeFicheiro);
+                estruturaSGR->cat_r = load_sgr(NULL, NULL, "reviews.csv")->cat_r;
+            } else {
+                printf("\nFicheiro inexistente\n");
+            }
+            break;
+        case 'T':
+            free_sgr(estruturaSGR);
+            estruturaSGR = init_SGR();
+            estruturaSGR = load_sgr("users.csv", "bussines.csv", "reviews.csv");
+            estruturaConStars(estruturaSGR->cat_r, estruturaSGR->cat_b);
+            estruturaSGR->cat_b = estruturaConStars(estruturaSGR->cat_r, estruturaSGR->cat_b);
+            break;
+        default: {
+            printf("Tipo de ficheiro inválido");
+            printf("\nIndique o tipo de ficheiro que deseja abrir (U-users B-bussines R-reviews): \n");
+            if (scanf(" %c", &tFicheiro) > 0)printf("Escolheuo tipo : %c\n", tFicheiro);
         }
-
-
-
-
+    }
+    if (nomeFicheiro != "T") {
+    estruturaSGR->cat_b = estruturaConStars(estruturaSGR->cat_r, estruturaSGR->cat_b);
+}
     return EXIT_SUCCESS;
 }
 
 SGR load_sgr(char *users, char *businesses, char *reviews) {
     if (users!=NULL && businesses==NULL && reviews==NULL)
-        lerFicheiroUsers("users.csv", sgr->cat_u);
+        estruturaSGR->cat_u = lerFicheiroUsers("users.csv", estruturaSGR->cat_u);
     if (users==NULL && businesses!=NULL && reviews==NULL)
-        lerFicheiroBussines("bussines.csv", sgr->cat_b);
+        estruturaSGR->cat_b = lerFicheiroBussines("bussines.csv", estruturaSGR->cat_b);
     if (users==NULL && businesses==NULL && reviews!=NULL)
-        lerFicheiroReviews("reviews.csv", sgr->cat_r);
+        estruturaSGR->cat_r = lerFicheiroReviews("reviews.csv", estruturaSGR->cat_r);
     if (users!=NULL && businesses!=NULL && reviews!=NULL){
-        lerFicheiroUsers("users.csv", sgr->cat_u);
-        lerFicheiroBussines("bussines.csv", sgr->cat_b);
-        lerFicheiroReviews("reviews.csv", sgr->cat_r);
+        estruturaSGR->cat_u = lerFicheiroUsers("users.csv", estruturaSGR->cat_u);
+        estruturaSGR->cat_b = lerFicheiroBussines("bussines.csv", estruturaSGR->cat_b);
+        estruturaSGR->cat_r = lerFicheiroReviews("reviews.csv", estruturaSGR->cat_r);
     }
-
-    return sgr;
+    return estruturaSGR;
 }
 
 
@@ -144,21 +132,22 @@ int query2(){
             printf("**********************Query 2********************\n");
             printf("Indique a letra que quer listar:\n");
 
-         //   if(scanf(" %c",&letra)>0);
+            // if(scanf(" %c",&letra)>0)
         }
     printf("Vão ser listados todos os negócios cujo nome inicia por: %c\n",letra);
     letra= toupper(letra);
-    resultados = travessiaBussinesPorLetra(sgr->cat_b,letra);
+    resultados = businesses_started_by_letter(estruturaSGR,letra);
     return EXIT_SUCCESS;
 }
 
 TABLE businesses_started_by_letter(SGR sgr, char letter){
     int flag = 0;
     int nrResultados = 0;
-    char letra = query2();
+    char letra = letter;
     clock_t tempIni, tempFim;
     TABLE resultados;
     tempIni = clock();
+    printf("ID user: %s\n", getBussinesId(getBussines(sgr->cat_b, "bvN78flM8NLprQ1a1y5dRg")));
     resultados = travessiaBussinesPorLetra (sgr->cat_b, letra);
     tempFim = clock();
     nrResultados = getTamanhoLista(resultados);
@@ -178,12 +167,10 @@ TABLE businesses_started_by_letter(SGR sgr, char letter){
     return resultados;
 }
 
+//Query 3. Dado um id de negócio, determinar a sua informação: nome, cidade, estado, stars,
+//e número total reviews.
 
-/**
-Query 3. Dado um id de negócio, determinar a sua informação: nome, cidade, estado, stars,
-        e número total reviews.
-
-       TABLE business_info(SGR sgr, char *business_id);
+//      TABLE business_info(SGR sgr, char *business_id);
 
 //Dado um id de negócio, determinar a sua informação: nome, cidade, estado, stars, e número total reviews.
 
@@ -192,42 +179,125 @@ int query3(char* idB){
     printf("**********************Query 3********************\n");
     printf("Indique o id de un negocio\n");
     BUSSINES b;
-    REVIEW r;
-    float rs;
-    char * n, c, e;
-
+    char *n, *c, *e;
+    float *stars = malloc(sizeof(float) * TAM_CATEG*1000);
 
     if(scanf("%s",idB)>0){
 
-        b = getBussines(sgr->cat_b,idB);
-        n = getBussinesName(b);
+        b = getBussines(estruturaSGR->cat_b,idB);
+    /*    n = getBussinesName(b);
         c = getBussinesCity(b);
         e = getBussinesState(b);
-        r = getReview(sgr->cat_r, idB);
-        rs = getReviewStars(r);
+        stars= travessiaReviewsPorIdB(estruturaSGR->cat_r,idB);
 
-       }
-    printf("%s %s %s %f", n,c,e,rs);
+        printf("El nombre del negocio es %s y esta en la ciudad %s perteneciente al estado %s \n", n, c, e);
+
+        for(int l=1;l<stars[0];l++)
+            printf("Las estrellas de este negocio son %d\n", (int)stars[l]);
+            printf("El total de reviews e  %d\n", (int)stars[0]-1);
+*/
+
+    printf("id %s \n", getBussinesId(b));
+        for(int i=0; i< getBussinesTotalstars(b);i++)
+            printf("%f\n", getBussinesStars(b)[i]);
+    }
+
     return 0;
 
 }
 
 
+
+/**
 Query 4. Dado um id de utilizador, determinar a lista de negócios aos quais fez review.
         A informação associada a cada negócio deve ser o id e o nome.
 
         TABLE businesses_reviewed(SGR sgr, char *user_id);
+**/
 
-Query 5. Dado um número n de stars e uma cidade, determinar a lista de negócios com n ou mais stars na dada cidade.
-        A informação associada a cada negócio deve ser o seu id e nome.
+//Query 5. Dado um número n de stars e uma cidade, determinar a lista de negócios com n ou mais stars na dada cidade.
+//        A informação associada a cada negócio deve ser o seu id e nome.
 
-        TABLE businesses_with_stars_and_city(SGR sgr, float stars, char *city);
+ //       TABLE businesses_with_stars_and_city(SGR sgr, float stars, char *city);
 
-Query 6. Dado um número inteiro n, determinar a lista dos top n negócios
-        (tendo em conta o número médio de stars) em cada cidade. A informação
-        associada a cada negócio deve ser o seu id, nome, e número de estrelas.
 
-        TABLE top_businesses_by_city(SGR sgr, int top);
+int query5(char*ciudad){
+
+    printf("**********************Query 5********************\n");
+    printf("Indique el numero de estrellas \n");
+    float estrella;
+    char **idBuss;
+    char **idBC ;
+
+
+
+    int i,j;
+
+
+    if(scanf("%f",&estrella)>0){
+
+       idBuss= travessiaReviewsPorStars(estruturaSGR->cat_r,estrella);
+
+        //for(int l=1;l<idBuss[0];l++)
+            //printf("Los id's con esas estrellas son %s\n", idBuss[l]);
+    }
+    printf("Indique la ciudad \n");
+    if(scanf("%s",ciudad)>0){
+
+        idBC= travessiaBussinesPorCidade(estruturaSGR->cat_b,ciudad);
+
+        //for(int l=1;l<idBC[0];l++)
+        //printf("Los id's en esa ciudad son %s\n", idBuss[l]);
+    }
+    printf("Los id's de negocios y sus nombres con esas %f estrellas y en la ciudad de %s indicada son:\n", estrella,ciudad);
+    for (i=1; i<idBuss[0];i++){
+        for(j=1;j<idBC[0];j++){
+            if (strcmp(idBuss[i], idBC[j])==0)
+                printf("%s %s\n",idBC[j], getBussinesName(getBussines(estruturaSGR->cat_b,idBC[j])));
+        }
+    }
+
+
+    return 0;
+
+}
+/**
+//Query 6. Dado um número inteiro n, determinar a lista dos top n negócios
+//        (tendo em conta o número médio de stars) em cada cidade. A informação
+//        associada a cada negócio deve ser o seu id, nome, e número de estrelas.
+
+//          TABLE top_businesses_by_city(SGR sgr, int top);
+
+int query6() {
+
+    int n;
+
+    printf("**********************Query 6********************\n");
+    printf("Indique un numero\n");
+    char **idBS;
+    int tamanioElemento = sizeof idBS[0];
+    int longitud = sizeof idBS / tamanioElemento;
+    int k;
+
+
+    if (scanf("%d",&n) > 0) {
+
+        idBS = travessiaNMedioStars(estruturaSGR->cat_r, getBussinesId(estruturaSGR->cat_b));
+        qsort(idBS, longitud, tamanioElemento, funcionQueCompara);
+    }
+
+
+    printf("Los %s top  negocios mas estrellas son:\n", n);
+    for (k = 0; k < n; k++) {
+        printf("%s \n", idBS[k], getBussinesName(getBussines(estruturaSGR->cat_b, idBS[k])));
+    }
+}
+
+
+
+
+
+
 
 Query 7. Determinar a lista de ids de utilizadores e o número total de utilizadores que tenham visitado
         mais de um estado, i.e. que tenham feito reviews em negócios de diferentes estados.
@@ -255,4 +325,4 @@ Query 9. Dada uma palavra, determinar a lista de ids de reviews que a referem no
            TABLE res = (TABLE)malloc(sizeof(struct table));
         }
 
-        */
+        **/

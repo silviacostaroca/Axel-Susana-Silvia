@@ -26,8 +26,11 @@ CMakeFiles/Axel.dir/catalogo_bussines.c.o: ../catalogo_bussines.h
 CMakeFiles/Axel.dir/catalogo_bussines.c.o: ../paginacao.h
 
 CMakeFiles/Axel.dir/catalogo_reviews.c.o: ../avl.h
+CMakeFiles/Axel.dir/catalogo_reviews.c.o: ../bussines.h
+CMakeFiles/Axel.dir/catalogo_reviews.c.o: ../catalogo_bussines.h
 CMakeFiles/Axel.dir/catalogo_reviews.c.o: ../catalogo_reviews.c
 CMakeFiles/Axel.dir/catalogo_reviews.c.o: ../catalogo_reviews.h
+CMakeFiles/Axel.dir/catalogo_reviews.c.o: ../paginacao.h
 CMakeFiles/Axel.dir/catalogo_reviews.c.o: ../reviews.h
 
 CMakeFiles/Axel.dir/catalogo_users.c.o: ../avl.h

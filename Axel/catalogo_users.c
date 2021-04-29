@@ -87,8 +87,21 @@ int getTotalUsers(CATALOGO_USER catU){
 
 //Função que dado um catalogo e um caracter, devolve o indice correspondente a esse caracte
 int getAVLIndice(CATALOGO_USER a, char c){
-    int i = toupper(c)-'A';
-    return i;
+    int i = 0;
+    char letra = toupper(c);
+    if(isdigit(letra))
+    {
+        i = 26+(letra-48);
+        return i;
+    }
+    if(isalpha(letra)){
+        i = letra - 'A';
+        return i;
+    }
+    else {
+        i = 36;
+        return i;
+    }
 }
 
 //Função que dado um id de user valida se ele existe
@@ -105,21 +118,20 @@ int existeUser(CATALOGO_USER catU, USER a){
 USER getUser(CATALOGO_USER catU, char * id){
 
     int i = getAVLIndice(catU, id[0]);
-    USER res = (USER) malloc(sizeof (USER));
+    USER res = initU();
     USER u = (USER) malloc(sizeof (USER));
 
 
     res = (USER) avl_find(catU->avl_indice[i], id);
     if (res != NULL) {
         //O USER EXISTE
-        char * test = strdup(getUserName(res));
         u = setUserId(u, getUserId(res));
         u = setUserName(u, getUserName(res));
         u = setUserNumFriends(u, getUserNumFriends(res));
         u = setUserFriends(u, getUserFriends(res), getUserNumFriends(res));
         return u;
     } else {
-        printf("O id indicado nao tem correspondencia!\nPor favor inserir id valido\n");
+        printf("O id indicado nao tem correspondencia!\n");
         return NULL;
     }
 
@@ -132,7 +144,7 @@ ARVORE getCatalogoUserPorIndice(CATALOGO_USER cat_u, int i) {
     return cat_u->avl_indice[i];
 }
 
-
+/**
 void freeCatalogoUsers(CATALOGO_USER cat_U){
     int i;
 
@@ -143,3 +155,4 @@ void freeCatalogoUsers(CATALOGO_USER cat_U){
     }
     free(cat_U);
 }
+*/

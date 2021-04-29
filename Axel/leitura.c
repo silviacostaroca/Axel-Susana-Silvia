@@ -142,7 +142,7 @@ int validaReviews (char * linha){
     int tokenReg= 0; //Para validar o nº de campos
     token = strtok(linha,";");
     while (token != NULL){
-        int cool, useful, funny;;
+        int cool, useful, funny;
         float stars;
         switch (tokenReg) {
             case 0: //id review
@@ -240,6 +240,7 @@ void fillCatalogoUsers (CATALOGO_USER catUsers, char * linha){
         token = strtok(NULL, ";");
     }
     inserirUserCatalogo (catUsers, id, name, friendsUser, i);
+  //  printf (" O id e o nome son %s\n", getUserName ((USER) avl_find(getAVLIndice(catUsers,id[0]),id)));
     //free(friendsUser);
 }
 
@@ -249,9 +250,9 @@ void fillCatalogoBussines (CATALOGO_BUSSINES catB, char * linha) {
     int mem = MAXCATEGORIAS, i = 0, j = 0, k = 0;
     char *token = strtok(linha, ";");
     char *categorias;
-    char **bussCategorias = (char **) malloc(MAXCATEGORIAS * (TAM_NAME + 1) * sizeof(char));
+    char **bussCategorias = (char **) malloc(MAXCATEGORIAS * (TAM_NAME) * sizeof(char));
     for (j = 0; j < MAXCATEGORIAS; j++) {
-        bussCategorias[j] = (char *) malloc(TAM_NAME + 1);
+        bussCategorias[j] = (char *) malloc(TAM_NAME);
     }
     while (token != NULL) {
         /* ----- copia ID ---- */
@@ -353,7 +354,7 @@ void fillCatalogoReviews (CATALOGO_REVIEWS  catR, char * linha){
 
 /*--------------------------------- Ler ficheiros -------------------------------------------*/
 //Lê o ficheiro users.csv
-int lerFicheiroUsers(char * nomeFicheiro, CATALOGO_USER cat_users){
+CATALOGO_USER lerFicheiroUsers(char * nomeFicheiro, CATALOGO_USER cat_users){
     int linhasLidas = 0;
     int linhasValidas = 0;
     char linha[MAXBUFUSERS];
@@ -384,12 +385,11 @@ int lerFicheiroUsers(char * nomeFicheiro, CATALOGO_USER cat_users){
     printf("Total de Linhas Lidas: %d\n",linhasLidas-1);
     printf("Total de Linhas Válidas: %d\n", linhasValidas);
     printf("Tempo de Leitura: %.3f segundos\n", tempoLeitura);
-
-    return EXIT_SUCCESS;
+    return cat_users;
 }
 
 //Lê o ficheiro bussines.csv
-int lerFicheiroBussines(char * nomeFicheiro, CATALOGO_BUSSINES cat_bussines){
+CATALOGO_BUSSINES lerFicheiroBussines(char * nomeFicheiro, CATALOGO_BUSSINES cat_bussines){
     char copylinha [MAXBUFUSERS];
     int linhasLidas = 0;
     int linhasValidas = 0;
@@ -420,11 +420,11 @@ int lerFicheiroBussines(char * nomeFicheiro, CATALOGO_BUSSINES cat_bussines){
     printf("Total de Linhas Lidas: %d\n",linhasLidas-1);
     printf("Total de Linhas Válidas: %d\n", linhasValidas-1);
     printf("Tempo de Leitura: %.3f segundos\n", tempoLeitura);
-    return EXIT_SUCCESS;
+    return cat_bussines;
 }
 
 //Lê o ficheiro reviews.csv
-int lerFicheiroReviews(char * nomeFicheiro, CATALOGO_REVIEWS cat_reviews){
+CATALOGO_REVIEWS lerFicheiroReviews(char * nomeFicheiro, CATALOGO_REVIEWS cat_reviews){
     char copylinha [MAXBUFFER];
     int linhasLidas = 0;
     int linhasValidas = 0;
@@ -454,6 +454,6 @@ int lerFicheiroReviews(char * nomeFicheiro, CATALOGO_REVIEWS cat_reviews){
     printf("Total de Linhas Lidas: %d\n",linhasLidas-1);
     printf("Total de Linhas Válidas: %d\n", linhasValidas-1);
     printf("Tempo de Leitura: %.3f segundos\n", tempoLeitura);
-    return EXIT_SUCCESS;
+    return cat_reviews;
 }
 

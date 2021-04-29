@@ -10,6 +10,7 @@
 
 
 
+
 struct catalogoBussines{
     int totalBussines;
     ARVORE avl_indiceB [37]; //27 letras + 9 algarismos, porque os ids podem começar por letra ou numero
@@ -60,7 +61,7 @@ void inserirBussinesCatalogo(CATALOGO_BUSSINES cataB, char*idB, char*nameB, char
     BUSSINES bussines = initBussines(idBussines, nameB, city, state, categorias, totalcat);
     avl_insert(cataB->avl_indiceB[indice], getBussinesId(bussines),bussines);
     cataB->totalBussines++;
-   // free (bussines);
+    // free (bussines);
 }
 
 
@@ -72,8 +73,21 @@ int getTotalBussines(CATALOGO_BUSSINES catB){
 
 //Função que dado um catalogo e um caracter, devolve o indice correspondente a esse caracte
 int getAVLIndiceB(CATALOGO_BUSSINES a, char c){
-    int i = toupper(c)-'A';
-    return i;
+    int i = 0;
+    char letra = toupper(c);
+    if(isdigit(letra))
+    {
+        i = 26+(letra-48);
+        return i;
+    }
+    if(isalpha(letra)){
+        i = letra - 'A';
+        return i;
+    }
+    else {
+        i = 36;
+        return i;
+    }
 }
 //Função que dado um id de b bussines valida se ele existe
 
@@ -87,20 +101,20 @@ int existeBussines(CATALOGO_BUSSINES catB, BUSSINES b){
 BUSSINES getBussines(CATALOGO_BUSSINES catB, char * idB){
 
     int i = getAVLIndiceB(catB, idB[0]);
-    BUSSINES res = (BUSSINES) malloc(sizeof (BUSSINES));
-    BUSSINES b = (BUSSINES) malloc(sizeof (BUSSINES));
+    BUSSINES res = (BUSSINES) malloc(MAXCAT*sizeof (BUSSINES));
+    BUSSINES b = (BUSSINES) malloc(MAXCAT*sizeof (BUSSINES));
 
     res = (BUSSINES) avl_find(catB->avl_indiceB[i], idB);
     if (res != NULL) {
-        //O BUSSINES EXISTE
 
-        // char * test = strdup(getBussinesName(res));
-        b = setBussinesId(b, getBussinesId(res));
         b = setBussinesName(b, getBussinesName(res));
         b = setBussinesCity(b, getBussinesCity(res));
         b = setBussinesState(b, getBussinesState(res));
+        b = setBussinesStarsArray(b, getBussinesStars(res), getBussinesTotalstars(res));
+        b = setBussinesTotalStars(b,getBussinesTotalstars(res));
         b = setBussinesTotalCategorias(b, getBussinesTotalCat(res));
         b = setBussinesCategorias(b, getBussinesCategorias(res), getBussinesTotalCat(res));
+        b = setBussinesId(b, getBussinesId(res));
         return b;
     } else {
         printf("O id indicado nao tem correspondencia!\nPor favor inserir id valido\n");
@@ -177,4 +191,36 @@ void quicksort(void** resultados, int (*funcaoComparacao)(), int n, void* param)
 }
 
 **/
+
+char** travessiaBussinesPorCidade (CATALOGO_BUSSINES cat_b, char* ciudad) {
+    int k;
+    int tam = 10000;
+    char **idB = malloc(sizeof(char *) * MAXCATEGORIAS * 1000);
+    int i = 0;
+    int indarray = 1;
+    int elem_avl;
+
+    BUSSINES buss;
+    TravessiaModulo trav = avl_trav_alloc();
+    //vai fazer a travessia de todas as avls do array
+    for (i = 0; i < 37; i++) {
+        elem_avl = avl_node_count(cat_b->avl_indiceB[i]);
+        if (elem_avl != 0) {
+            avl_t_init(trav, cat_b->avl_indiceB[i]); //inicio de travessia
+            buss = (BUSSINES) avl_t_next(trav); //devuelve el contenido, en este caso un content
+            for (k = 0; k < elem_avl; k++) {
+                if (strcmp(ciudad, getBussinesCity(buss)) == 0) {
+                    idB[indarray] = strdup(getBussinesId(buss));
+                    indarray++;
+
+                }
+                buss = (BUSSINES) avl_t_next(trav);
+
+            }
+        }
+    }
+    idB[0] = indarray;
+    return idB;
+
+}
 
