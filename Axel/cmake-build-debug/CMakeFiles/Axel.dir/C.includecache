@@ -6,11 +6,17 @@
 
 #IncludeRegexTransform: 
 
+/Users/silviaacosta/CLionProjects/Axel/SGR.h
+leitura.h
+/Users/silviaacosta/CLionProjects/Axel/leitura.h
+
 /Users/silviaacosta/CLionProjects/Axel/avl.h
 stddef.h
 -
 
 /Users/silviaacosta/CLionProjects/Axel/bussines.h
+avl.h
+/Users/silviaacosta/CLionProjects/Axel/avl.h
 
 /Users/silviaacosta/CLionProjects/Axel/catalogo_bussines.h
 stdbool.h
@@ -19,20 +25,6 @@ avl.h
 /Users/silviaacosta/CLionProjects/Axel/avl.h
 bussines.h
 /Users/silviaacosta/CLionProjects/Axel/bussines.h
-paginacao.h
-/Users/silviaacosta/CLionProjects/Axel/paginacao.h
-
-/Users/silviaacosta/CLionProjects/Axel/catalogo_reviews.c
-stdio.h
-/Users/silviaacosta/CLionProjects/Axel/stdio.h
-ctype.h
--
-avl.h
-/Users/silviaacosta/CLionProjects/Axel/avl.h
-reviews.h
-/Users/silviaacosta/CLionProjects/Axel/reviews.h
-catalogo_reviews.h
-/Users/silviaacosta/CLionProjects/Axel/catalogo_reviews.h
 paginacao.h
 /Users/silviaacosta/CLionProjects/Axel/paginacao.h
 
@@ -54,7 +46,51 @@ reviews.h
 catalogo_bussines.h
 /Users/silviaacosta/CLionProjects/Axel/catalogo_bussines.h
 
+/Users/silviaacosta/CLionProjects/Axel/catalogo_users.h
+stdbool.h
+-
+avl.h
+/Users/silviaacosta/CLionProjects/Axel/avl.h
+user.h
+/Users/silviaacosta/CLionProjects/Axel/user.h
+
+/Users/silviaacosta/CLionProjects/Axel/leitura.h
+catalogo_users.h
+/Users/silviaacosta/CLionProjects/Axel/catalogo_users.h
+catalogo_bussines.h
+/Users/silviaacosta/CLionProjects/Axel/catalogo_bussines.h
+catalogo_reviews.h
+/Users/silviaacosta/CLionProjects/Axel/catalogo_reviews.h
+user.h
+/Users/silviaacosta/CLionProjects/Axel/user.h
+bussines.h
+/Users/silviaacosta/CLionProjects/Axel/bussines.h
+reviews.h
+/Users/silviaacosta/CLionProjects/Axel/reviews.h
+time.h
+/Users/silviaacosta/CLionProjects/Axel/time.h
+
+/Users/silviaacosta/CLionProjects/Axel/menu.c
+menu.h
+/Users/silviaacosta/CLionProjects/Axel/menu.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+ctype.h
+-
+SGR.h
+/Users/silviaacosta/CLionProjects/Axel/SGR.h
+leitura.h
+/Users/silviaacosta/CLionProjects/Axel/leitura.h
+
+/Users/silviaacosta/CLionProjects/Axel/menu.h
+
 /Users/silviaacosta/CLionProjects/Axel/paginacao.h
 
 /Users/silviaacosta/CLionProjects/Axel/reviews.h
+
+/Users/silviaacosta/CLionProjects/Axel/user.h
 

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include <ctype.h>
 
 #include "avl.h"
@@ -116,15 +115,11 @@ int existeUser(CATALOGO_USER catU, USER a){
 //Função que dado um id devolve a informação de um User
 
 USER getUser(CATALOGO_USER catU, char * id){
-
     int i = getAVLIndice(catU, id[0]);
     USER res = initU();
     USER u = (USER) malloc(sizeof (USER));
-
-
     res = (USER) avl_find(catU->avl_indice[i], id);
     if (res != NULL) {
-        //O USER EXISTE
         u = setUserId(u, getUserId(res));
         u = setUserName(u, getUserName(res));
         u = setUserNumFriends(u, getUserNumFriends(res));

@@ -1,5 +1,4 @@
-#ifndef GRUPO66_CATALOGO_USERS_H
-#define GRUPO66_CATALOGO_USERS_H
+
 
 #include <stdbool.h>
 #include "avl.h"
@@ -7,8 +6,6 @@
 
 
 #define TAM_IDS 22
-#define MAXUSERS 1000000
-
 //#define MAXFRIENDS 1000
 
 /* ---------------- Estruturas ---------------*/
@@ -29,6 +26,5 @@ int existeUser(CATALOGO_USER catU, USER a);
 USER getUser(CATALOGO_USER catU, char * id);
 ARVORE getCatalogoUsersPorLetra(CATALOGO_USER cat_u, char l);
 ARVORE getCatalogoUserPorIndice(CATALOGO_USER cat_u, int i);
-void freeCatalogoUsers(CATALOGO_USER cat_U);
+//void freeCatalogoUsers(CATALOGO_USER cat_U);
 
-#endif //GRUPO66_CATALOGO_USERS_H

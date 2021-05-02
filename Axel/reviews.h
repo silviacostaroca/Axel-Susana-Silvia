@@ -1,9 +1,8 @@
 //
 // Created by Silvia Acosta on 19/04/2021.
 //
-
-#ifndef AXEL_REVIEWS_H
-#define AXEL_REVIEWS_H
+#ifndef GRUPO66_REVIEWS_H
+#define GRUPO66_REVIEWS_H
 
 #define MAXTEXT 5000000
 #define TAM_IDS 22
@@ -36,4 +35,4 @@ REVIEW setReviewsText(REVIEW r, char* texto);
 
 
 
-#endif //AXEL_REVIEWS_H
+#endif //GRUPO66_REVIEWS_H//

@@ -17,6 +17,7 @@ CMakeFiles/Axel.dir/avl.c.o
  /Users/silviaacosta/CLionProjects/Axel/avl.c
  /Users/silviaacosta/CLionProjects/Axel/avl.h
 CMakeFiles/Axel.dir/bussines.c.o
+ /Users/silviaacosta/CLionProjects/Axel/avl.h
  /Users/silviaacosta/CLionProjects/Axel/bussines.c
  /Users/silviaacosta/CLionProjects/Axel/bussines.h
 CMakeFiles/Axel.dir/catalogo_bussines.c.o
@@ -31,8 +32,10 @@ CMakeFiles/Axel.dir/catalogo_reviews.c.o
  /Users/silviaacosta/CLionProjects/Axel/catalogo_bussines.h
  /Users/silviaacosta/CLionProjects/Axel/catalogo_reviews.c
  /Users/silviaacosta/CLionProjects/Axel/catalogo_reviews.h
+ /Users/silviaacosta/CLionProjects/Axel/catalogo_users.h
  /Users/silviaacosta/CLionProjects/Axel/paginacao.h
  /Users/silviaacosta/CLionProjects/Axel/reviews.h
+ /Users/silviaacosta/CLionProjects/Axel/user.h
 CMakeFiles/Axel.dir/catalogo_users.c.o
  /Users/silviaacosta/CLionProjects/Axel/avl.h
  /Users/silviaacosta/CLionProjects/Axel/catalogo_users.c

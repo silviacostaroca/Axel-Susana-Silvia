@@ -240,7 +240,6 @@ void fillCatalogoUsers (CATALOGO_USER catUsers, char * linha){
         token = strtok(NULL, ";");
     }
     inserirUserCatalogo (catUsers, id, name, friendsUser, i);
-  //  printf (" O id e o nome son %s\n", getUserName ((USER) avl_find(getAVLIndice(catUsers,id[0]),id)));
     //free(friendsUser);
 }
 
@@ -365,7 +364,7 @@ CATALOGO_USER lerFicheiroUsers(char * nomeFicheiro, CATALOGO_USER cat_users){
     FILE * fp = fopen(nomeFicheiro, "r");
     if(fp==NULL) {
         perror("Erro ao abrir o ficheiro");
-        return EXIT_FAILURE;
+        return NULL;
     }
     //printf("Ficheiro: %s\n", nomeFicheiro);
     tempIni = clock();
@@ -400,7 +399,7 @@ CATALOGO_BUSSINES lerFicheiroBussines(char * nomeFicheiro, CATALOGO_BUSSINES cat
     FILE * fp = fopen(nomeFicheiro, "r");
     if(fp==NULL) {
         perror("Erro ao abrir o ficheiro");
-        return EXIT_FAILURE;
+        return NULL;
     }
     //printf("Ficheiro: %s\n", nomeFicheiro);
     tempIni = clock();
@@ -435,7 +434,7 @@ CATALOGO_REVIEWS lerFicheiroReviews(char * nomeFicheiro, CATALOGO_REVIEWS cat_re
     FILE * fp = fopen(nomeFicheiro, "r");
     if(fp==NULL) {
         perror("Erro ao abrir o ficheiro");
-        return EXIT_FAILURE;
+        return NULL;
     }
     //printf("Ficheiro: %s\n", nomeFicheiro);
     tempIni = clock();

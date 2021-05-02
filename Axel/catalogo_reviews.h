@@ -1,12 +1,3 @@
-//
-// Created by Silvia Acosta on 17/04/2021.
-//
-
-#ifndef GRUPO66_CATALOGO_REVIEWS_H
-#define GRUPO66_CATALOGO_REVIEWS_H
-
-
-
 #include "stdlib.h"
 #include "string.h"
 #include "stdio.h"
@@ -20,6 +11,7 @@
 #define MAXTEXT 5000000
 
 typedef struct catalogoReviews *CATALOGO_REVIEWS;
+typedef struct states* QUERY7;
 
 CATALOGO_REVIEWS initCatReviews();
 void inserirReviewCatalogo(CATALOGO_REVIEWS cataR, char*idR, char*idU, char*idB, float estrelas, int util, int div, int col,  char*data,  char*texto);
@@ -48,8 +40,12 @@ REVIEW setReviewsText(REVIEW r, char* texto);
 float* travessiaReviewsPorIdB (CATALOGO_REVIEWS cat_r, char* idBuss);
 char** travessiaReviewsPorIdU (CATALOGO_REVIEWS cat_r, char*idUser);
 char** travessiaReviewsPorStars (CATALOGO_REVIEWS cat_r, float stars);
-char ** travessiaNMedioStars (CATALOGO_REVIEWS catR, char* idB);
-int funcionQueCompara(const void *a, const void *b);
-CATALOGO_BUSSINES estruturaConStars (CATALOGO_REVIEWS catR, CATALOGO_BUSSINES catB);
+char** travessiaReviewsPorPalabra (CATALOGO_REVIEWS cat_r, char* palabra);
 
-#endif //GRUPO66_CATALOGO_REVIEWS_H
+CATALOGO_BUSSINES estruturaConStars (CATALOGO_REVIEWS catR, CATALOGO_BUSSINES catB);
+bool searchWord(char *cadena,  char *word);
+TABLE travessiaReviewPorIdU(CATALOGO_REVIEWS catR, CATALOGO_BUSSINES catB, char* idU);
+
+char * getIdU(QUERY7 s);
+int existeState(char** states, char* newState, int totalSts);
+TABLE travessiaRevUsersEstados (CATALOGO_REVIEWS cat_r, CATALOGO_BUSSINES cat_b);

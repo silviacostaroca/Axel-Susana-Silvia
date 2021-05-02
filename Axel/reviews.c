@@ -1,11 +1,5 @@
-//
-// Created by Silvia Acosta on 19/04/2021.
-//
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <stdbool.h>
 
 #include "reviews.h"
 

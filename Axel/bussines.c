@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 #include "bussines.h"
+#include "avl.h"
 
 
 /** ---------------- Estruturas de Dados ---------------**/
@@ -15,12 +16,17 @@ struct bussines{
     char *nameBussines;
     char *cityBussines;
     char *stateBussines;
-    char **categorias;
+    ARVORE categorias;
     int totalCat;
     int totalStars;
-
 };
 
+
+int avlComparaCateg(const void *avlA, const void *avlB, void *avlParam){
+    char *a = (char *) avlA;
+    char *b = (char *) avlB;
+    return strcmp(a,b);
+}
 
 BUSSINES initB(){
     int i=0;
@@ -30,10 +36,7 @@ BUSSINES initB(){
     bussines->cityBussines= (char*)malloc(MAXCAT*sizeof(char));
     bussines->stateBussines= (char*)malloc(MAXCAT*sizeof(char));
     bussines->stars=(float *) malloc(MAXCAT*sizeof (float));
-    bussines->categorias= (char**)malloc(sizeof(char)*MAXCAT);
-    for(i=0; i<MAXCAT;i++){
-        bussines->categorias[i]=(char*)malloc(TAM_CATEG*sizeof(char));
-    }
+    bussines->categorias= avl_create(avlComparaCateg, NULL, NULL);
     return bussines;
 }
 
@@ -50,15 +53,15 @@ BUSSINES initBussines(char* id, char* name, char* city, char* state, char** cate
     bussines->cityBussines= (char*)malloc(tamCity*sizeof(char));
     bussines->stateBussines= (char*)malloc(tamState*sizeof(char));
     bussines->stars=(float *) malloc(MAXCAT*sizeof (float));
+    bussines->categorias= avl_create(avlComparaCateg, NULL, NULL);
     bussines->idBussines= strdup(id);
     bussines->nameBussines= strdup(name);
     bussines->cityBussines= strdup(city);
     bussines->stateBussines= strdup(state);
     bussines->totalCat= numCat;
     bussines->totalStars =0;
-    bussines->categorias= (char**)malloc(sizeof(char)*numCat*TAM_CATEG);
     for(i=0; i<numCat;i++){
-        bussines->categorias[i]=strdup(categories[i]);
+        avl_insert(bussines->categorias, categories[i],categories[i]);
     }
     return bussines;
 }
@@ -84,17 +87,8 @@ int getBussinesTotalCat(BUSSINES b){
     return b->totalCat;
 }
 
-char** getBussinesCategorias(BUSSINES b){
+ARVORE getBussinesCategorias(BUSSINES b){
     return b->categorias;
-}
-char** getBussinesCateg(BUSSINES b){
-    int i;
-    char**copycateg=(char**) malloc(b->totalCat*(TAM_CATEG)*sizeof (char));
-    for(i=0; i<(b->totalCat);i++){
-        copycateg[i]=strcpy(copycateg[i],b->categorias[i]);
-    }
-    //  printf("sai do ciclo\n");
-    return copycateg;
 }
 
 float* getBussinesStars (BUSSINES b){
@@ -140,12 +134,8 @@ BUSSINES setBussinesTotalCategorias(BUSSINES b, int numCat){
     return b;
 }
 
-BUSSINES setBussinesCategorias(BUSSINES b, char** categories, int totalCat){
-    b->categorias=(char**) malloc((totalCat)*(TAM_CATEG+1)*sizeof (char));
-    int i = 0;
-    for(i=0; i<totalCat;i++){
-        b->categorias[i]=strdup(categories[i]);
-    }
+BUSSINES setBussinesCategorias(BUSSINES b, ARVORE categoria){
+    b->categorias = categoria;
     return b;
 }
 BUSSINES setBussinesTotalStars(BUSSINES b, int numStars){
@@ -162,7 +152,9 @@ BUSSINES setBussinesStarsArray(BUSSINES b, float* stars , int totalStars){
 }
 
 BUSSINES setBussinesStars (BUSSINES b, float star, int numStars){
-   // b->stars = (float*)realloc(b->stars,MAXCAT*sizeof (float));
+    if(sizeof(b->stars) == numStars){
+        b->stars = (float*)realloc(b->stars,sizeof (float)*2*sizeof(b->stars));
+    }
     b->stars[numStars] = star;
     return b;
 }
